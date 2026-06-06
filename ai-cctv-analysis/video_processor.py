@@ -32,8 +32,14 @@ DASHBOARD_EXPORT_PATH = Path(
 # Initialize YOLO model
 model = YOLO(MODEL_WEIGHTS)
 
-# Configure Tesseract OCR
-pytesseract.pytesseract.tesseract_cmd = r"C:\Users\samue\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
+# Configure Tesseract OCR. On Linux/macOS the binary is discovered on PATH,
+# so no path is needed. Only override when TESSERACT_CMD is set (e.g. a Windows
+# install dir like C:\...\Tesseract-OCR\tesseract.exe). This keeps the pipeline
+# runnable from a clean clone on any OS - consistent with the env-overridable
+# knobs above (CCTV_VIDEO_DIR, YOLO_WEIGHTS, PIXEL_TO_CM, ...).
+_tesseract_cmd = os.environ.get("TESSERACT_CMD")
+if _tesseract_cmd:
+    pytesseract.pytesseract.tesseract_cmd = _tesseract_cmd
 OCR_CONFIG = "--psm 6"
 
 # Utility: estimate box dimensions (W×H×D)

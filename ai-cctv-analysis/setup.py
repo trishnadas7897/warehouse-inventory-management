@@ -6,6 +6,7 @@ Setup script for the Walmart Video Processing Pipeline
 import subprocess
 import sys
 import os
+import shutil
 from pathlib import Path
 
 def install_requirements():
@@ -20,23 +21,32 @@ def install_requirements():
     return True
 
 def check_tesseract():
-    """Check if Tesseract is installed"""
+    """Check if Tesseract is installed (cross-platform)."""
     print("🔍 Checking Tesseract installation...")
-    
-    # Common Tesseract paths on Windows
+
+    # Linux/macOS (and Windows, if on PATH): the binary is discovered via PATH.
+    on_path = shutil.which("tesseract")
+    if on_path:
+        print(f"✅ Tesseract found on PATH: {on_path}")
+        return on_path
+
+    # Windows fallback: common install locations not always added to PATH.
     tesseract_paths = [
         r"C:\Program Files\Tesseract-OCR\tesseract.exe",
         r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
     ]
-    
     for path in tesseract_paths:
         if os.path.exists(path):
             print(f"✅ Tesseract found at: {path}")
+            print("   Tip: set TESSERACT_CMD to this path for video_processor.py")
             return path
-    
-    print("❌ Tesseract not found in common locations.")
-    print("📥 Please install Tesseract-OCR from: https://github.com/UB-Mannheim/tesseract/wiki")
-    print("   After installation, update the path in video_processor.py")
+
+    print("❌ Tesseract not found on PATH or in common locations.")
+    print("📥 Install it:")
+    print("   - Linux:  sudo apt-get install -y tesseract-ocr")
+    print("   - macOS:  brew install tesseract")
+    print("   - Windows: https://github.com/UB-Mannheim/tesseract/wiki")
+    print("   On Windows, point video_processor.py at it via TESSERACT_CMD.")
     return None
 
 def download_yolo_model():

@@ -17,9 +17,12 @@ A Python pipeline that processes MP4 videos with YOLOv8 object detection, OCR fo
 
 ### 1. Prerequisites
 
-**Install Tesseract-OCR:**
-- Download from: https://github.com/UB-Mannheim/tesseract/wiki
-- Install to default location: `C:\Program Files\Tesseract-OCR\`
+**Install the Tesseract-OCR binary** (the `pytesseract` pip package is only a wrapper):
+- **Ubuntu / Debian:** `sudo apt-get install -y tesseract-ocr`
+- **macOS:** `brew install tesseract`
+- **Windows:** download from https://github.com/UB-Mannheim/tesseract/wiki, then set `TESSERACT_CMD` to the installed `tesseract.exe` path.
+
+On Linux/macOS the binary is found on `PATH` automatically - no code edit needed.
 
 ### 2. Setup Python Environment
 
@@ -44,11 +47,11 @@ model = YOLO("yolov8n.pt")
 
 ### Basic Usage
 
-1. Place your MP4 files in the folder specified by `VIDEO_DIR` in `video_processor.py`:
-   ```python
-   VIDEO_DIR = r"C:\Users\samue\Downloads\Telegram Desktop"
+1. Point `CCTV_VIDEO_DIR` at the folder holding your MP4 files (no code edit needed):
+   ```bash
+   export CCTV_VIDEO_DIR="$(pwd)/sample_videos"
+   mkdir -p sample_videos   # then drop your .mp4 files in here
    ```
-   (You can change this path to any folder containing your videos.)
 
 2. Run the processor:
    ```bash
@@ -69,6 +72,7 @@ Every knob is environment-driven so the pipeline runs on any machine without cod
 | `PIXEL_TO_CM` | `0.1` | Pixel -> centimetre scaling (calibrate per camera) |
 | `WAREHOUSE_AREA_THRESHOLD` | `50000` | Boxes above this pixel area are classified as warehouse crates |
 | `DASHBOARD_EXPORT_PATH` | `../src/data/cv_counts.json` | Where the React dashboard reads counts from |
+| `TESSERACT_CMD` | _unset_ (uses `PATH`) | Explicit Tesseract binary path; only needed on Windows |
 
 ### Dashboard handoff
 
@@ -86,14 +90,14 @@ After every video, `video_processor.py` writes a JSON export at `DASHBOARD_EXPOR
 }
 ```
 
-Vite imports this file at build time so a recruiter cloning the repo sees the integration without running the pipeline. To refresh: run `python video_processor.py`, rebuild the frontend, and `TopProductsCard` will show the new "Live from CCTV" data.
+Vite imports this file at build time so a recruiter cloning the repo sees the integration without running the pipeline. To refresh: run `python video_processor.py`, rebuild the frontend, and the dashboard's KPI cards (`StockOverviewCards`), `TopProductsCard`, and `DetectedOnShelfPanel` will show the new "Live from CCTV" data.
 
 ## Output Format
 
 ### Warehouse Boxes (Blue bounding box)
 - **Label**: First OCR line, or `"Box"` if no readable text
 - **Dimensions**: Estimated real-world size (W×H×D cm)
-- **Quantity**: Always `1`
+- **Quantity**: `Qty: N` (running per-label detection count)
 
 ### Shelf Products (Green bounding box)
 - **Label**: OCR-detected product name + first weight match (e.g. `500g`, `1.5l`)
@@ -108,15 +112,15 @@ Every frame includes: `"+obj,qty, obj.item name"`
 ### Common Issues
 
 1. **Tesseract not found**
-   - Install Tesseract-OCR from the provided link
-   - Update the path in `video_processor.py` if installed elsewhere:
-     ```python
-     pytesseract.pytesseract.tesseract_cmd = r"C:\Path\To\tesseract.exe"
+   - Install the Tesseract binary (see Prerequisites above).
+   - On Linux/macOS it is auto-discovered on `PATH`. On Windows, point the script at it via the environment:
+     ```bash
+     export TESSERACT_CMD="C:\Path\To\tesseract.exe"   # or set it in your shell profile
      ```
 
 2. **Incorrect video folder**
-   - Make sure `VIDEO_DIR` points to the folder containing your MP4 files.
-   - If you move your videos, update `VIDEO_DIR` accordingly.
+   - Make sure `CCTV_VIDEO_DIR` points to the folder containing your MP4 files.
+   - If you move your videos, update `CCTV_VIDEO_DIR` accordingly.
 
 3. **Poor OCR results**
    - Adjust lighting in your videos
@@ -140,7 +144,7 @@ Every frame includes: `"+obj,qty, obj.item name"`
 ## File Structure
 
 ```
-wallmart project/
+ai-cctv-analysis/
 ├── video_processor.py    # Main processing script
 ├── requirements.txt      # Python dependencies
 ├── setup.py             # Installation helper
