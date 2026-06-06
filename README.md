@@ -2,7 +2,7 @@
 
 **AI-powered retail warehouse inventory, logistics, and demand forecasting - paired with a CCTV computer-vision pipeline that counts what is actually on the shelves.**
 
-> 🔗 **Live demo:** _add your Vercel URL here after deploying_ (see [Deploy to Vercel](#deploy-to-vercel)). The app needs **no API keys** to run or deploy.
+> 🔗 **Live demo:** **https://warehouse-inventory-management-mocha.vercel.app** · needs **no API keys** to run or deploy.
 
 [![React 18](https://img.shields.io/badge/React-18-149eca?logo=react&logoColor=white)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)

@@ -1,8 +1,9 @@
 # Recruiter assets - SmartRetailFlow
 
 Ready-to-use copy for resume, LinkedIn, and portfolio. Every claim here is backed
-by code in this repo (see the honesty guard at the bottom). The app is Vercel-ready
-but not yet deployed - add the live URL to these blocks (and the README) once it is.
+by code in this repo (see the honesty guard at the bottom).
+
+**Live demo:** https://warehouse-inventory-management-mocha.vercel.app
 
 ---
 
@@ -13,7 +14,7 @@ but not yet deployed - add the live URL to these blocks (and the README) once it
 - Built a retail control-center SPA (React 18, TypeScript, Tailwind, shadcn/ui) with 25+ modular
   components across 6 routes - inventory, barcode scanning, demand forecast, logistics, orders,
   settings - using Recharts for KPI/forecast visualizations and a keyless Leaflet + OpenStreetMap
-  delivery map, packaged as a Vercel-ready static SPA (zero-config, no API keys; SPA-rewrite included).
+  delivery map, deployed as a static SPA on Vercel (zero-config, no API keys; SPA-rewrite for client routing).
 - Designed a `schema_version`-versioned typed JSON contract between a Python computer-vision pipeline
   and the React dashboard, so detected on-shelf counts surface in the KPI cards, a top-products card,
   and a detected-on-shelf panel with a "Live from CCTV" provenance badge and a demo-data fallback -
@@ -43,7 +44,7 @@ but not yet deployed - add the live URL to these blocks (and the README) once it
 > 🗺️ Logistics (keyless Leaflet/OpenStreetMap map), demand forecasting, barcode scanning, orders - all
 > in one control center, deployable with zero API keys.
 >
-> Code in comments (live demo link once deployed). Feedback welcome! #React #TypeScript #ComputerVision #YOLOv8 #AI #FullStack
+> 🔗 Live demo: https://warehouse-inventory-management-mocha.vercel.app | code in comments. Feedback welcome! #React #TypeScript #ComputerVision #YOLOv8 #AI #FullStack
 
 ---
 
@@ -58,7 +59,7 @@ but not yet deployed - add the live URL to these blocks (and the README) once it
 > defined a versioned JSON contract so the CV pipeline's per-label counts flow into the dashboard's KPI
 > cards and product panels, with a "Live from CCTV" badge and a graceful demo-data fallback. Every
 > pipeline parameter is environment-overridable, and the whole app deploys with no API keys. Built with
-> React, TypeScript, Tailwind, Recharts, Leaflet, OpenCV, YOLOv8, and Tesseract; Vercel-ready (zero-config).
+> React, TypeScript, Tailwind, Recharts, Leaflet, OpenCV, YOLOv8, and Tesseract; deployed on Vercel (zero-config, no API keys).
 
 ---
 
