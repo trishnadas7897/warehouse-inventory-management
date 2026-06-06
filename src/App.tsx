@@ -29,7 +29,7 @@ const App = () => (
               <header className="h-14 border-b bg-background flex items-center px-4">
                 <SidebarTrigger />
                 <div className="ml-4">
-                  <h2 className="font-semibold text-foreground">SmartRetailFlow</h2>
+                  <h2 className="font-semibold text-foreground">Stocktake</h2>
                 </div>
               </header>
               <main className="flex-1">

@@ -1,4 +1,4 @@
-# Recruiter assets - SmartRetailFlow
+# Recruiter assets - Stocktake
 
 Ready-to-use copy for resume, LinkedIn, and portfolio. Every claim here is backed
 by code in this repo (see the honesty guard at the bottom).
@@ -33,7 +33,7 @@ by code in this repo (see the honesty guard at the bottom).
 
 ## LinkedIn post
 
-> 🚀 New project: **SmartRetailFlow** - an AI retail inventory + logistics dashboard.
+> 🚀 New project: **Stocktake** - an AI retail inventory + logistics dashboard.
 >
 > 🧠 A YOLOv8 + Tesseract OCR pipeline watches warehouse/shelf footage, classifies boxes vs products,
 > estimates box dimensions, and counts items by label.
@@ -50,7 +50,7 @@ by code in this repo (see the honesty guard at the bottom).
 
 ## Portfolio blurb (~150 words)
 
-> **SmartRetailFlow** is an AI-powered retail inventory and logistics platform built for a Walmart-track
+> **Stocktake** is an AI-powered retail inventory and logistics platform built for a Walmart-track
 > Sparkathon. It pairs a React 18 + TypeScript dashboard - 25+ components spanning inventory overview,
 > barcode-scanning intake, AI demand forecasting, delivery logistics mapping, and order management -
 > with a Python computer-vision pipeline. The pipeline uses YOLOv8 for object detection and Tesseract

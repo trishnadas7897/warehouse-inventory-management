@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-// SmartRetailFlow - Vite config.
+// Stocktake - Vite config.
 // `@` aliases src/ so the `shadcn/ui` import style works as written
 // (`@/components/ui/button`, `@/lib/utils`, ...).
 

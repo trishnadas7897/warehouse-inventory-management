@@ -1,5 +1,5 @@
-import { Package, TrendingUp, ShoppingCart, Settings, Scan, Truck } from "lucide-react"
-import { NavLink, useLocation } from "react-router-dom"
+import { Package, TrendingUp, ShoppingCart, Settings, Scan, Truck, PackageCheck } from "lucide-react"
+import { NavLink } from "react-router-dom"
 
 import {
   Sidebar,
@@ -24,22 +24,26 @@ const items = [
 
 export function AppSidebar() {
   const { state } = useSidebar()
-  const location = useLocation()
-  const currentPath = location.pathname
-  
   const isCollapsed = state === "collapsed"
 
-  const isActive = (path: string) => currentPath === path
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "bg-primary text-primary-foreground font-medium" : "hover:bg-accent"
+    isActive
+      ? "bg-primary text-primary-foreground font-medium"
+      : "text-foreground hover:bg-accent hover:text-accent-foreground"
 
   return (
     <Sidebar className={isCollapsed ? "w-14" : "w-64"} collapsible="icon">
       <SidebarContent>
-        <div className="p-4">
-          <h2 className={`font-bold text-primary ${isCollapsed ? "text-center text-sm" : "text-xl"}`}>
-            {isCollapsed ? "SRF" : "SmartRetailFlow"}
-          </h2>
+        <div className={`flex items-center gap-2.5 p-4 ${isCollapsed ? "justify-center" : ""}`}>
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+            <PackageCheck className="h-5 w-5" />
+          </div>
+          {!isCollapsed && (
+            <div className="leading-tight">
+              <h2 className="text-lg font-bold tracking-tight text-foreground">Stocktake</h2>
+              <p className="text-xs text-muted-foreground">Inventory, counted.</p>
+            </div>
+          )}
         </div>
         
         <SidebarGroup>

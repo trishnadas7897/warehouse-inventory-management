@@ -1,4 +1,4 @@
-# SmartRetailFlow
+# Stocktake
 
 **AI-powered retail warehouse inventory, logistics, and demand forecasting - paired with a CCTV computer-vision pipeline that counts what is actually on the shelves.**
 
@@ -13,7 +13,7 @@
 [![Tesseract](https://img.shields.io/badge/Tesseract-OCR-1d4e89)](https://github.com/tesseract-ocr/tesseract)
 [![Leaflet](https://img.shields.io/badge/Leaflet-OpenStreetMap-199900?logo=leaflet&logoColor=white)](https://leafletjs.com)
 
-SmartRetailFlow is a two-part project that bridges the gap between a retail control tower and the floor that actually holds the stock. A React + TypeScript dashboard owns the inventory, forecasting, logistics, and order workflows; a Python pipeline owns the camera feed, detects crates and shelf items with YOLOv8, reads their labels with Tesseract OCR, and emits per-item running counts that the dashboard reads through a typed JSON contract.
+Stocktake is a two-part project that bridges the gap between a retail control tower and the floor that actually holds the stock. A React + TypeScript dashboard owns the inventory, forecasting, logistics, and order workflows; a Python pipeline owns the camera feed, detects crates and shelf items with YOLOv8, reads their labels with Tesseract OCR, and emits per-item running counts that the dashboard reads through a typed JSON contract.
 
 It was built to test a single idea: **can a small ops team operate a warehouse with one browser tab and a CCTV camera, and still know what is in stock?**
 
