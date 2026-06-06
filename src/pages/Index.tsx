@@ -4,6 +4,7 @@ import { TopProductsCard } from "@/components/TopProductsCard"
 import { RestockForecastChart } from "@/components/RestockForecastChart"
 import { MobileScannerCard } from "@/components/MobileScannerCard"
 import { StockAlertPanel } from "@/components/StockAlertPanel"
+import { DetectedOnShelfPanel } from "@/components/DetectedOnShelfPanel"
 
 const Index = () => {
   return (
@@ -22,6 +23,8 @@ const Index = () => {
         <TopProductsCard />
         <RestockForecastChart />
       </div>
+
+      <DetectedOnShelfPanel />
 
       <StockAlertPanel />
     </div>
