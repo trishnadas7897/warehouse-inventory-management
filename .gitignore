@@ -97,6 +97,11 @@ Desktop.ini
 # Model weights and outputs
 yolov8n.pt
 *_annotated.mp4
+# CV pipeline input clips (drop your own MP4s here; not version-controlled)
+ai-cctv-analysis/sample_videos/
+
+# TypeScript incremental build info
+*.tsbuildinfo
 
 # Logs
 *.log
