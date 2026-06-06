@@ -60,33 +60,45 @@ model = YOLO("yolov8n.pt")
 
 ### Configuration
 
-Edit `video_processor.py` to adjust these parameters:
+Every knob is environment-driven so the pipeline runs on any machine without code edits. Defaults reflect the original Windows development setup.
 
-```python
-# Video directory path
-VIDEO_DIR = r"C:\Users\samue\Downloads\Telegram Desktop"
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `CCTV_VIDEO_DIR` | `C:\Users\samue\Downloads\Telegram Desktop` | Folder to scan for `*.mp4` |
+| `YOLO_WEIGHTS` | `yolov8n.pt` | Path to YOLO weights (use a fine-tuned model for better accuracy) |
+| `PIXEL_TO_CM` | `0.1` | Pixel -> centimetre scaling (calibrate per camera) |
+| `WAREHOUSE_AREA_THRESHOLD` | `50000` | Boxes above this pixel area are classified as warehouse crates |
+| `DASHBOARD_EXPORT_PATH` | `../src/data/cv_counts.json` | Where the React dashboard reads counts from |
 
-# YOLO model weights (use custom model for better accuracy)
-MODEL_WEIGHTS = "yolov8n.pt"
+### Dashboard handoff
 
-# Pixel to centimeter conversion (adjust for your camera setup)
-PIXEL_TO_CM = 0.1
+After every video, `video_processor.py` writes a JSON export at `DASHBOARD_EXPORT_PATH` (default: `../src/data/cv_counts.json`). That file is the contract between the pipeline and the React dashboard - its TypeScript counterpart is [`src/data/cv_counts.ts`](../src/data/cv_counts.ts), and the schema version is currently `1`. Shape:
 
-# Area threshold for warehouse vs shelf classification
-WAREHOUSE_AREA_THRESHOLD = 50000
+```json
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-06T12:00:00Z",
+  "source_video": "store_cam_01_2026-06-06.mp4",
+  "total_frames_processed": 5400,
+  "fps": 30,
+  "shelf_items":      [ { "label": "Whole Milk 1L", "count": 47, "last_seen_frame": 5392 } ],
+  "warehouse_boxes":  [ { "label": "Box", "dimensions_cm": "60.0x40.0x30.0 cm", "detected_count": 4 } ]
+}
 ```
+
+Vite imports this file at build time so a recruiter cloning the repo sees the integration without running the pipeline. To refresh: run `python video_processor.py`, rebuild the frontend, and `TopProductsCard` will show the new "Live from CCTV" data.
 
 ## Output Format
 
-### Warehouse Boxes (Green)
-- **Label**: "Box"
+### Warehouse Boxes (Blue bounding box)
+- **Label**: First OCR line, or `"Box"` if no readable text
 - **Dimensions**: Estimated real-world size (W×H×D cm)
-- **Quantity**: Always "1"
+- **Quantity**: Always `1`
 
-### Shelf Products (Red)
-- **Label**: OCR-detected product name
-- **Dimensions**: "N/A"
-- **Quantity**: "+1, net: X" (running count)
+### Shelf Products (Green bounding box)
+- **Label**: OCR-detected product name + first weight match (e.g. `500g`, `1.5l`)
+- **Dimensions**: not shown for shelf items
+- **Quantity**: `+1, net: X` (running per-label count)
 
 ### Bottom Prompt
 Every frame includes: `"+obj,qty, obj.item name"`

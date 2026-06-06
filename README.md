@@ -71,7 +71,7 @@ flowchart LR
     YOLO --> AREA
     AREA -- large --> DIMS --> ANNOT
     AREA -- small --> OCR --> ANNOT
-    ANNOT -. CSV / DB sync .-> INDEX
+    ANNOT -- src/data/cv_counts.json --> INDEX
 
     INDEX --> FCAST
     INDEX --> ORD
@@ -82,7 +82,7 @@ flowchart LR
     SET -. credentials .-> STR
 ```
 
-> **Current state, in plain words.** The two halves are independent today. The dashboard runs on mocked data; the CV pipeline writes its counts to a Python dict that prints at end-of-run. The dotted "CSV / DB sync" arrow is the documented next integration step (see `Roadmap` below). The integration tiles in `Settings` are UI scaffolding - credentials are captured in component state but not yet wired to live Shopify / WooCommerce / Stripe APIs.
+> **Current state, in plain words.** The two halves are wired through a single JSON contract at [src/data/cv_counts.json](src/data/cv_counts.json). The CV pipeline's `write_dashboard_export()` writes shelf-item counts + warehouse-box detections after every video run; Vite imports that JSON at build time and [src/data/cv_counts.ts](src/data/cv_counts.ts) types it. [TopProductsCard](src/components/TopProductsCard.tsx) currently consumes it (showing a "Live from CCTV" badge when the JSON has rows; falling back to demo data otherwise) - other dashboard cards still render mocked data and are the next integration step. The Shopify / WooCommerce / Stripe tiles in `Settings` are UI scaffolding only - credentials are captured in component state but not wired to live APIs.
 
 ---
 
@@ -229,7 +229,7 @@ warehouse-inventory-management/
 
 The honest version, in order of impact:
 
-1. **Pipeline -> dashboard wiring.** Persist `shelf_counts` from `video_processor.py` to a small SQLite DB or a flat CSV the dashboard polls. Replace the mock data in `src/pages/Index.tsx` with that source.
+1. **Pipeline -> dashboard wiring.** ✅ *In progress.* `video_processor.py::write_dashboard_export` writes a typed JSON contract at `src/data/cv_counts.json`; `TopProductsCard` consumes it. Next: thread the same import through `StockOverviewCards`, `StockAlertPanel`, and the forecast pages so every "stock" surface reads from real CCTV counts.
 2. **Realtime barcode scan.** Today `BarcodeScanner.tsx` simulates a barcode in web mode. Wrap with Capacitor and ship a real native build that uses the device camera + an open-source barcode SDK.
 3. **Forecast model.** The "AI Demand Forecast" surface is currently driven by mock series. Plug in a real model (Prophet / linear-regression baseline / a TimeSeries Transformer) keyed on historical orders + the holiday/weather signals already in `AIFactorsSidebar`.
 4. **Live integrations.** Wire the Shopify / WooCommerce / Stripe tiles to real API clients with the adapter shape sketched above.
@@ -245,9 +245,8 @@ MIT. Compliance with YOLOv8 (AGPL by default unless you hold an Ultralytics comm
 
 ## Contributors
 
-This was built as a team project. Author your real split here, e.g.:
+Built for Walmart Sparkathon 2025.
 
-- Trishna Das - React + TypeScript dashboard, the CV pipeline (YOLOv8 + Tesseract integration).
-- *(other contributors here)*
+- **[Trishna Das](https://github.com/trishnadas7897)** - React + TypeScript dashboard (Vite, Tailwind, shadcn/ui, 25 custom components, 6 routes), YOLOv8 + Tesseract CV pipeline, integration handoff layer.
 
-If you have a question, open an issue or reach out via the contact details on [trishnadas7897.github.io](https://trishnadas7897.github.io).
+Questions? Open an issue or reach out via the contact details on [trishnadas7897.github.io](https://trishnadas7897.github.io).

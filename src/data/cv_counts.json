@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-06T12:00:00Z",
+  "source_video": "store_cam_01_2026-06-06.mp4",
+  "total_frames_processed": 5400,
+  "fps": 30,
+  "shelf_items": [
+    { "label": "Whole Milk 1L",      "count": 47, "last_seen_frame": 5392 },
+    { "label": "Organic Bananas",    "count": 38, "last_seen_frame": 5388 },
+    { "label": "White Bread",        "count": 24, "last_seen_frame": 5301 },
+    { "label": "Orange Juice 1L",    "count": 19, "last_seen_frame": 5365 },
+    { "label": "Ground Beef 500g",   "count": 14, "last_seen_frame": 5212 },
+    { "label": "Potato Chips 150g",  "count": 31, "last_seen_frame": 5398 },
+    { "label": "Greek Yogurt 500g",  "count": 22, "last_seen_frame": 5340 },
+    { "label": "Cheddar Cheese 200g","count": 17, "last_seen_frame": 5275 }
+  ],
+  "warehouse_boxes": [
+    { "label": "Box",       "dimensions_cm": "60.0x40.0x30.0 cm", "detected_count": 4 },
+    { "label": "FRAGILE",   "dimensions_cm": "55.0x45.0x30.0 cm", "detected_count": 2 },
+    { "label": "DAIRY 6PK", "dimensions_cm": "48.0x32.0x30.0 cm", "detected_count": 3 }
+  ]
+}
